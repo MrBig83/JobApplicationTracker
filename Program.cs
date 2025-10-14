@@ -6,6 +6,12 @@
         {
             JobManager applicationManager = new JobManager();
 
+            bool runProgram = true;
+
+            while (runProgram)
+            {
+                runProgram = MenuHelper.ShowMenu(applicationManager);
+            }
             
         }
     }

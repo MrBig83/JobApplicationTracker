@@ -13,7 +13,7 @@ namespace JobApplicationTracker
 
         public void AddJob()
         {
-            //Skapa ovjekt och lägg in det i listan
+            //Skapa objekt och lägg in det i listan
         }
 
         public void UpdateStatus()
@@ -31,14 +31,24 @@ namespace JobApplicationTracker
             //Gruppera enligt status och printa ut alla
         }
 
+        public void ShowByDate()
+        {
+            //Gruppera enligt status och printa ut alla
+        }
+
         public void ShowStatistics()
         {
             //Gruppera enligt status och printa ut statistik. (Antal i gruppen, dagar sedan svar, snitt antal dagar sedan svar)
         }
 
-        public void AddDummyData()
+        public void DeleteApplication()
         {
-            //AddJob med en lista på 10 applikationer som dummydata
+            //Gruppera enligt status och printa ut alla
         }
+
+        //public void AddDummyData()
+        //{
+        //    //AddJob med en lista på 10 applikationer som dummydata
+        //}
     }
 }
