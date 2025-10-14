@@ -12,12 +12,13 @@ namespace JobApplicationTracker
         {
             Console.WriteLine("1. Lägg till ny ansökan");
             Console.WriteLine("2. Visa alla ansäkningar");
-            Console.WriteLine("3. Filtrera ansökningar efter status");
+            Console.WriteLine("3. Filtrera och gruppera ansökningar efter status");
             Console.WriteLine("4. Sortera ansökningar efter datum");
             Console.WriteLine("5. Visa statistik"); //Visa undermeny av denna (gråa ut allt annat) eller presentera en ny meny
             Console.WriteLine("6. Uppdatera status på en ansökan");
             Console.WriteLine("7. Ta bort en ansökan");
             Console.WriteLine("8. Avsluta");
+            Console.WriteLine("99. Lägg till dummy-data");
             string menuChoice = Console.ReadLine();
 
             switch (menuChoice)
@@ -45,6 +46,9 @@ namespace JobApplicationTracker
                     break;
                 case "8":
                     return false;
+                case "99":
+                    applicationManager.AddDummyData();
+                    break;
                 default:
                     Console.WriteLine("Vänligen ange ett korrekt menyalternativ");
                     break;

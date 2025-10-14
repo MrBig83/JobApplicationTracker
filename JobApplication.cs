@@ -20,7 +20,7 @@ namespace JobApplicationTracker
         {
             CompanyName = companyName;
             PositionTitle = positionTitle;
-            CurrentState = JobApplication.Status.Applied;
+            CurrentState = currentState;
             ApplicationDate = applicationDate;
             ResponseDate = responseDate;
             SalaryExpectation = salaryExpectation;
@@ -34,7 +34,7 @@ namespace JobApplicationTracker
 
         public void GetSummary()
         {
-            Console.WriteLine($"{PositionTitle} på {CompanyName}. Ansökte: {ApplicationDate} (för {GetDaysSinceApplied} dagar sedan). Status: {CurrentState}. ");
+            Console.WriteLine($"{PositionTitle} på {CompanyName}. Ansökte: {ApplicationDate.ToShortDateString()} (för {GetDaysSinceApplied} dagar sedan). Status: {CurrentState}. ");
         }
     }
 }
