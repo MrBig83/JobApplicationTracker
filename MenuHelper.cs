@@ -52,5 +52,49 @@ namespace JobApplicationTracker
             }
             return true;
         }
+
+        public static bool ShowUpdateMenu(JobApplication application)
+        {
+            
+            Console.WriteLine("-- Ändra status -- ");
+            Console.WriteLine("1. ...till Intervju");
+            Console.WriteLine("2. ...till Erbjudande");
+            Console.WriteLine("3. ...till Nekad");
+            Console.WriteLine("4. Avbryt");
+            Console.WriteLine("Datum för ändringen sparas automatiskt.");
+            string menuChoice = Console.ReadLine();
+
+                switch (menuChoice)
+                {
+                    case "1":
+                        application.CurrentState = JobApplication.Status.Interview;
+                        application.ResponseDate = DateTime.Now;
+                        Console.WriteLine("Statusen ändrad till Intervju");
+                    //Lägg till en progressbar
+                        Thread.Sleep(1500);
+                        break;
+                    case "2":
+                        application.CurrentState = JobApplication.Status.Offer;
+                        application.ResponseDate = DateTime.Now;
+                        Console.WriteLine("Statusen ändrad till Erbjudande");
+                    //Lägg till en progressbar
+                    Thread.Sleep(1500);
+                        break;
+                    case "3":
+                        application.CurrentState = JobApplication.Status.Rejected;
+                        application.ResponseDate = DateTime.Now;
+                        Console.WriteLine("Statusen ändrad till Nekad");
+                    //Lägg till en progressbar
+                    Thread.Sleep(1500);
+                        break;
+                    case "4":
+                        break;
+                    default:
+                        Console.WriteLine("Vänligen ange ett korrekt alternativ");
+                        return true;
+
+                }            
+            return false;
+        }
     }
 }
