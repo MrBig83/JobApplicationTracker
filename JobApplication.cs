@@ -13,10 +13,10 @@ namespace JobApplicationTracker
         public enum Status { Applied, Interview, Offer, Rejected }
         public Status CurrentState { get; set; }
         public DateTime ApplicationDate { get; set; }
-        public DateTime ResponseDate { get; set; }
+        public DateTime? ResponseDate { get; set; }
         public int SalaryExpectation { get; set; }
 
-        public JobApplication(string companyName, string positionTitle, Enum Status, DateTime applicationDate, DateTime responseDate, int salaryExpectation)
+        public JobApplication(string companyName, string positionTitle, Status currentState, DateTime applicationDate, DateTime? responseDate, int salaryExpectation)
         {
             CompanyName = companyName;
             PositionTitle = positionTitle;
