@@ -30,13 +30,29 @@ namespace JobApplicationTracker
 
         public void UpdateStatus()
         {
-            //Uppdatera ResponsDate och status
+            //Uppdatera ResponsDate och status 
+            Console.WriteLine("- Uppdatera ansökning -");
+            //=======  DRY - VARNING ========
+            int counter = 1;
+            applications.ForEach(a => Console.WriteLine($"{counter++}. {a.PositionTitle} på {a.CompanyName} med löneanspråk {a.SalaryExpectation}. Du sökte tjänsten {a.ApplicationDate}. Nuvarande status: {a.CurrentState}"));
+            Console.WriteLine();
+            Console.WriteLine("Vilken ansökning vill du uppdatera?");
+            int userInput = Convert.ToInt32(Console.ReadLine())-1;
+            Console.WriteLine($"Tjänsten som {applications[userInput].PositionTitle} på {applications[userInput].CompanyName} söktes den {applications[userInput].ApplicationDate} och har status: {applications[userInput].CurrentState}");
+            Console.WriteLine("Välj ett av följande alternativ:");
+            bool printUpdateMenu = true;
+            while (printUpdateMenu)
+            {
+                printUpdateMenu = MenuHelper.ShowUpdateMenu(applications[userInput]);
+            }
+
         }
 
         public void ShowAll()
         {
             //CW för att printa ut alla job i listan
             Console.WriteLine("- Samtliga ansökningar -");
+            //======= DRY - VARNING ========
             int counter = 1;
             applications.ForEach(a => Console.WriteLine($"{counter++}. {a.PositionTitle} på { a.CompanyName} med löneanspråk {a.SalaryExpectation}. Du sökte tjänsten {a.ApplicationDate}. Nuvarande status: {a.CurrentState}"));
             Console.WriteLine();
