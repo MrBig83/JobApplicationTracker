@@ -99,7 +99,9 @@ namespace JobApplicationTracker
             int responded = applications.Count(a => a.ResponseDate != null);
             double responseRate = (double)responded / total * 100;
             Console.WriteLine($"Totalt antal ansökningar: {total}");
-            Console.WriteLine($"Svarsfrekvens: {responseRate}");
+
+            Console.WriteLine($"Svarsfrekvens: {responseRate}%");
+
 
             var averageResponseTIme = applications
                 .Where(a => a.ResponseDate.HasValue)
