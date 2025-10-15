@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JobApplicationTracker
 {
-    public class JobManager
+    public class ApplicationManager
     {
         List<JobApplication> applications = new List<JobApplication>();
 
@@ -21,7 +21,7 @@ namespace JobApplicationTracker
             string positionTitle = Console.ReadLine();
             Console.WriteLine("Ange vilket löneanspråk du har angett:");
             int salaryExpectation = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine();
+            Console.WriteLine(); 
             Console.WriteLine("Fyller i resternade värden..."); //Progressbar på 1.5 sec
 
             applications.Add(new JobApplication(companyName, positionTitle, JobApplication.Status.Applied, DateTime.Now, null, salaryExpectation));
