@@ -26,6 +26,7 @@ namespace JobApplicationTracker
 
             applications.Add(new JobApplication(companyName, positionTitle, JobApplication.Status.Applied, DateTime.Now, null, salaryExpectation));
             //Done! i 1.5 sekunder. 
+
         }
 
         public void UpdateStatus()
@@ -64,6 +65,21 @@ namespace JobApplicationTracker
 
         public void ShowByStatus()
         {
+            Console.WriteLine("- Grupperade enligt status -");
+            Console.WriteLine();
+            var applicationsSortedByStatus = applications.GroupBy(a => a.CurrentState);
+            Console.WriteLine(applicationsSortedByStatus.Count());
+
+            foreach (var group in applicationsSortedByStatus)
+            {
+                Console.WriteLine($"Status: {group.Key}, Antal ansökningar: {group.Count()}");
+                foreach (var application in group)
+                {
+                    Console.WriteLine($"     - {application.PositionTitle} på {application.CompanyName}");
+                }
+                Console.WriteLine();
+
+            }
             //Gruppera enligt status och printa ut alla
         }
 
