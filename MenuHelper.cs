@@ -8,7 +8,7 @@ namespace JobApplicationTracker
 {
     internal class MenuHelper
     {
-        public static bool ShowMenu(JobManager applicationManager)
+        public static bool ShowMenu(ApplicationManager applicationManager)
         {
             Console.WriteLine("1. Lägg till ny ansökan");
             Console.WriteLine("2. Visa alla ansäkningar");

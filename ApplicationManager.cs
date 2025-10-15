@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JobApplicationTracker
 {
-    public class JobManager
+    public class ApplicationManager
     {
         List<JobApplication> applications = new List<JobApplication>();
 

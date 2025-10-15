@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            JobManager applicationManager = new JobManager();
+            ApplicationManager applicationManager = new ApplicationManager();
 
             bool runProgram = true;
 
