@@ -85,12 +85,62 @@ namespace JobApplicationTracker
 
         public void ShowByDate()
         {
+            Console.WriteLine("- Sorterade efter ansökningsdatum -");
             //Gruppera enligt status och printa ut alla
         }
 
         public void ShowStatistics()
+        //Gruppera enligt status och printa ut statistik. (Antal i gruppen, dagar sedan svar, snitt antal dagar sedan svar)
         {
-            //Gruppera enligt status och printa ut statistik. (Antal i gruppen, dagar sedan svar, snitt antal dagar sedan svar)
+            Console.WriteLine("- Statistik för samtliga jobbapplikationer -");
+            Console.WriteLine();
+
+            int total = applications.Count();
+            int responded = applications.Count(a => a.ResponseDate != null);
+            double responseRate = (double)responded / total * 100;
+            Console.WriteLine($"Totalt antal ansökningar: {total}");
+            Console.WriteLine($"Svarsfrekvens: {responseRate}");
+
+            var averageResponseTIme = applications
+                .Where(a => a.ResponseDate.HasValue)
+                .Average(a => (a.ResponseDate.Value - a.ApplicationDate).TotalDays);
+            Console.WriteLine($"Genomsnittlig svarstid: {averageResponseTIme:F1} dagar");
+
+            var topCompanies = applications.OrderByDescending(a => a.SalaryExpectation).Take(3);
+            Console.WriteLine("Topp 3 högsta löneförväntningarna:");
+            foreach (var a in topCompanies)
+            {
+                Console.WriteLine($"{a.CompanyName} - {a.SalaryExpectation}kr ({a.PositionTitle})");
+            }
+
+            var fastestCompany = applications
+                .Where(a => a.ResponseDate.HasValue)
+                .OrderBy(a => (a.ResponseDate.Value - a.ApplicationDate).TotalDays)
+                .FirstOrDefault();
+            if (fastestCompany != null)
+            {
+                double svarstid = (fastestCompany.ResponseDate.Value - fastestCompany.ApplicationDate).TotalDays;
+                Console.WriteLine($"Snabbaste svaret: {fastestCompany.CompanyName} ({svarstid:F1} dagar)");
+            }
+            else
+            {
+                Console.WriteLine("Inget företag har svarat ännu...");
+            }
+
+            var applicationsSortedByStatus = applications.GroupBy(a => a.CurrentState);
+            Console.WriteLine();
+
+            foreach (var group in applicationsSortedByStatus)
+            {
+                Console.WriteLine($"Status: {group.Key}, Antal ansökningar: {group.Count()}");
+                double averageSalary = group.Average(a => a.SalaryExpectation);
+                Console.WriteLine($"Genomsnittlig löneförväntning per status: {averageSalary}");
+                var earliest = group.OrderBy(a => a.ApplicationDate).First();
+                var latest = group.OrderByDescending(a => a.ApplicationDate).First();
+                Console.WriteLine($"Första ansökan gjordes till: {earliest.CompanyName} ({earliest.ApplicationDate:d})");
+                Console.WriteLine($"Senaste ansökan gjordes till: {latest.CompanyName} ({latest.ApplicationDate:d})");
+                Console.WriteLine();
+            }
         }
 
         public void DeleteApplication()
