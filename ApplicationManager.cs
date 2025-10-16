@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,33 +23,63 @@ namespace JobApplicationTracker
             Console.WriteLine("Ange vilket löneanspråk du har angett:");
             int salaryExpectation = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine(); 
-            Console.WriteLine("Fyller i resternade värden..."); //Progressbar på 1.5 sec
+            Console.WriteLine("Fyller i resternade värden..."); 
 
             applications.Add(new JobApplication(companyName, positionTitle, JobApplication.Status.Applied, DateTime.Now, null, salaryExpectation));
-            //Done! i 1.5 sekunder. 
-
         }
 
         public void UpdateStatus()
         {
-            //Uppdatera ResponsDate och status 
-            Console.Clear();
-            Console.WriteLine("\n- Uppdatera ansökning -\n");
-            //=======  DRY - VARNING ========
-            int counter = 1;
-            applications.ForEach(a => Console.WriteLine($"{counter++}. {a.PositionTitle} på {a.CompanyName} med löneanspråk {a.SalaryExpectation}. Du sökte tjänsten {a.ApplicationDate}. Nuvarande status: {a.CurrentState}"));
-            Console.WriteLine();
-            Console.WriteLine("Vilken ansökning vill du uppdatera? (ange nummer) eller gå tillbaka till huvudmenyn (x)");
-            int userInput = Convert.ToInt32(Console.ReadLine())-1;
-            Console.Clear();
-            Console.WriteLine($"\nTjänsten som {applications[userInput].PositionTitle} på {applications[userInput].CompanyName} söktes den {applications[userInput].ApplicationDate} och har status: {applications[userInput].CurrentState}\n");
-            //Console.WriteLine("Välj ett av följande alternativ:");
-            bool printUpdateMenu = true;
-            while (printUpdateMenu)
+            bool runShowUpdateList = true;
+            while (runShowUpdateList)
             {
-                printUpdateMenu = MenuHelper.ShowUpdateMenu(applications[userInput]);
-            }
+                Console.Clear();
+                Console.WriteLine("\n- Uppdatera ansökning -\n");
+                //=======  DRY - VARNING ========
+                int counter = 1;
+                applications.ForEach(a => Console.WriteLine($"{counter++}. {a.PositionTitle} på {a.CompanyName} med löneanspråk {a.SalaryExpectation}. Du sökte tjänsten {a.ApplicationDate}. Nuvarande status: {a.CurrentState}"));
+                Console.WriteLine();
+                Console.WriteLine("Vilken ansökning vill du uppdatera? (ange nummer) eller gå tillbaka till huvudmenyn (x)");
 
+                string userInput = Console.ReadLine();
+                if (userInput == "x")
+                {
+                    Console.Clear();
+                    runShowUpdateList = false;
+                }
+                else
+                {
+                    int index;
+                    if (int.TryParse(userInput, out index))
+                    {
+                        index -= 1;
+                        if (index >= 0 && index < applications.Count)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("-- Detaljerad information om ansökningen --");
+                            Console.WriteLine();
+                            Console.WriteLine($"\nTjänsten som {applications[index].PositionTitle} på {applications[index].CompanyName} söktes den {applications[index].ApplicationDate} och har status: {applications[index].CurrentState}\n");
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Console.WriteLine("\nNumret du angav finns inte. Försök igen.\n");
+                        }
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("\nFelaktig inmatning. Ange ett giltigt nummer eller 'x' för att gå tillbaka\n");
+                    }
+
+                    bool printUpdateMenu = true;
+                    while (printUpdateMenu)
+                    {
+                        printUpdateMenu = MenuHelper.ShowUpdateMenu(applications[index]);
+                    }
+                }
+
+            }
         }
 
         public void ShowAll()
@@ -102,6 +133,7 @@ namespace JobApplicationTracker
 
         public void ShowByStatus()
         {
+            //Gruppera enligt status och printa ut alla
             Console.WriteLine("- Grupperade enligt status -");
             Console.WriteLine();
             var applicationsSortedByStatus = applications.GroupBy(a => a.CurrentState);
@@ -115,9 +147,7 @@ namespace JobApplicationTracker
                     Console.WriteLine($"     - {application.PositionTitle} på {application.CompanyName}");
                 }
                 Console.WriteLine();
-
             }
-            //Gruppera enligt status och printa ut alla
         }
 
         public void ShowByDate()
