@@ -35,7 +35,7 @@ namespace JobApplicationTracker
         public void GetSummary()
         {
             Console.Write($"{PositionTitle} på {CompanyName}. Ansökte: {ApplicationDate.ToShortDateString()} (för {GetDaysSinceApplied()} dagar sedan). Status: ");
-            ColorHelper.ColorizeStatus(CurrentState);
+            ProgramHelpers.ColorizeStatus(CurrentState);
             Console.WriteLine();
         }
     }
