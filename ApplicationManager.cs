@@ -192,8 +192,8 @@ namespace JobApplicationTracker
             //Bekräfelse visas "Vill du ta bort <application info> J för Ja, N för Nej.
             Console.WriteLine($"Är du säker på att du vill radera ansökningen som {applications[userInput].PositionTitle} på {applications[userInput].CompanyName} som har status: {applications[userInput].CurrentState}\n Detta går inte att ångra!");
             Console.WriteLine("J - Ja eller N - Nej ");
-            string userConfirmDeletion = Console.ReadLine();
-            if(userConfirmDeletion == "J")
+            string userConfirmDeletion = Console.ReadLine().ToLower();
+            if(userConfirmDeletion == "j")
             {
                 Console.WriteLine($"Raderar ansökning: {applications[userInput].PositionTitle} på {applications[userInput].CompanyName}");
                 Thread.Sleep(2000);
