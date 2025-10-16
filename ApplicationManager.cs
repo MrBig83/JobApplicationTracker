@@ -32,15 +32,17 @@ namespace JobApplicationTracker
         public void UpdateStatus()
         {
             //Uppdatera ResponsDate och status 
-            Console.WriteLine("- Uppdatera ansökning -");
+            Console.Clear();
+            Console.WriteLine("\n- Uppdatera ansökning -\n");
             //=======  DRY - VARNING ========
             int counter = 1;
             applications.ForEach(a => Console.WriteLine($"{counter++}. {a.PositionTitle} på {a.CompanyName} med löneanspråk {a.SalaryExpectation}. Du sökte tjänsten {a.ApplicationDate}. Nuvarande status: {a.CurrentState}"));
             Console.WriteLine();
-            Console.WriteLine("Vilken ansökning vill du uppdatera?");
+            Console.WriteLine("Vilken ansökning vill du uppdatera? (ange nummer) eller gå tillbaka till huvudmenyn (x)");
             int userInput = Convert.ToInt32(Console.ReadLine())-1;
-            Console.WriteLine($"Tjänsten som {applications[userInput].PositionTitle} på {applications[userInput].CompanyName} söktes den {applications[userInput].ApplicationDate} och har status: {applications[userInput].CurrentState}");
-            Console.WriteLine("Välj ett av följande alternativ:");
+            Console.Clear();
+            Console.WriteLine($"\nTjänsten som {applications[userInput].PositionTitle} på {applications[userInput].CompanyName} söktes den {applications[userInput].ApplicationDate} och har status: {applications[userInput].CurrentState}\n");
+            //Console.WriteLine("Välj ett av följande alternativ:");
             bool printUpdateMenu = true;
             while (printUpdateMenu)
             {
@@ -65,6 +67,7 @@ namespace JobApplicationTracker
 
                 if (userInput == "x")
                 {
+                    Console.Clear();
                     runShowAll = false;
                 }
                 else
@@ -84,13 +87,13 @@ namespace JobApplicationTracker
                         else
                         {
                             Console.Clear();
-                            Console.WriteLine("Numret du angav finns inte. Försök igen.\n");
+                            Console.WriteLine("\nNumret du angav finns inte. Försök igen.\n");
                         }
                     }
                     else
                     {
                         Console.Clear();
-                        Console.WriteLine("Felaktig inmatning. Ange ett giltigt nummer eller 'x' för att gå tillbaka\n");
+                        Console.WriteLine("\nFelaktig inmatning. Ange ett giltigt nummer eller 'x' för att gå tillbaka\n");
                         
                     }
                 }
@@ -125,7 +128,7 @@ namespace JobApplicationTracker
 
         public void ShowStatistics()
         //Gruppera enligt status och printa ut statistik. (Antal i gruppen, dagar sedan svar, snitt antal dagar sedan svar)
-        {
+         {
             Console.WriteLine("- Statistik för samtliga jobbapplikationer -");
             Console.WriteLine();
 
@@ -208,6 +211,8 @@ namespace JobApplicationTracker
 
         public void AddDummyData()
         {
+            //AddJob med en lista på 10 applikationer som dummydata
+
             applications.Add(new JobApplication("Volvo", "Truckförare", JobApplication.Status.Interview, DateTime.Today.AddDays(-7), DateTime.Today.AddDays(-2), 37000));
             applications.Add(new JobApplication("Meta", "Developer", JobApplication.Status.Applied, DateTime.Today.AddDays(-17), DateTime.Today.AddDays(-12), 57000));
             applications.Add(new JobApplication("SKF", "Tekniker", JobApplication.Status.Offer, DateTime.Today.AddDays(-14), DateTime.Today.AddDays(-4), 37000));
@@ -218,7 +223,9 @@ namespace JobApplicationTracker
             applications.Add(new JobApplication("SF Bio", "Projektoroperatör", JobApplication.Status.Applied, DateTime.Today.AddDays(-27), DateTime.Today.AddDays(-20), 37000));
             applications.Add(new JobApplication("McDonalds", "Kock", JobApplication.Status.Rejected, DateTime.Today.AddDays(-18), DateTime.Today.AddDays(-17), 37000));
             applications.Add(new JobApplication("Spotify", "BE Developer", JobApplication.Status.Offer, DateTime.Today.AddDays(-5), DateTime.Today.AddDays(-2), 55000));
-            //AddJob med en lista på 10 applikationer som dummydata
+
+            Console.Clear();
+            Console.WriteLine("- 10st Dummy Data tillagd -\n");
         }
     }
 }
