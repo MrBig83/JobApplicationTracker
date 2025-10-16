@@ -10,7 +10,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace JobApplicationTracker
 {
-    public class ApplicationManager : ColorHelper
+    public class ApplicationManager : ProgramHelpers
     {
         List<JobApplication> applications = new List<JobApplication>();
 
@@ -40,10 +40,8 @@ namespace JobApplicationTracker
             while (runShowUpdateList)
             {
                 Console.WriteLine("\n- Uppdatera ansökning -\n");
-                //=======  DRY - VARNING ========
-                int counter = 1;
-                applications.ForEach(a => Console.WriteLine($"{counter++}. {a.PositionTitle} på {a.CompanyName} med löneanspråk {a.SalaryExpectation}. Du sökte tjänsten {a.ApplicationDate}. Nuvarande status: {a.CurrentState}"));
-                Console.WriteLine();
+                ProgramHelpers.DisplayCompleteList(applications);
+
                 Console.WriteLine("Vilken ansökning vill du uppdatera? (ange nummer) eller gå tillbaka till huvudmenyn (x)");
 
                 string userInput = Console.ReadLine();
@@ -95,16 +93,7 @@ namespace JobApplicationTracker
             {
                 //CW för att printa ut alla job i listan
                 Console.WriteLine("- Samtliga ansökningar -\n");
-                //======= DRY - VARNING ========
-                int counter = 1;
-                applications.ForEach(a =>
-                {
-                    Console.Write($"{counter++}. {a.PositionTitle} på {a.CompanyName} med löneanspråk {a.SalaryExpectation}. Du sökte tjänsten {a.ApplicationDate.ToShortDateString()}. Nuvarande status: ");
-                    ColorizeStatus(a.CurrentState);
-                    Console.WriteLine();
-                }); 
-
-                Console.WriteLine();
+                ProgramHelpers.DisplayCompleteList(applications);
                 Console.WriteLine("Vill du visa detaljerad information om en ansökan (ange nummer) eller gå tillbaka till huvudmenyn (x)?");
                 string userInput = Console.ReadLine().ToLower();
 

@@ -2,7 +2,7 @@
 
 namespace JobApplicationTracker
 {
-    public class ColorHelper
+    public class ProgramHelpers
     {
 
         public static void ColorizeStatus(Status status)
@@ -28,6 +28,18 @@ namespace JobApplicationTracker
             }
             Console.Write(status);
             Console.ResetColor();
+        }
+
+        public static void DisplayCompleteList(List<JobApplication> applications)
+        {
+            int counter = 1;
+            applications.ForEach(a =>
+            {
+                Console.Write($"{counter++}. {a.PositionTitle} på {a.CompanyName} med löneanspråk {a.SalaryExpectation}. Du sökte tjänsten {a.ApplicationDate.ToShortDateString()}. Nuvarande status: ");
+                ColorizeStatus(a.CurrentState);
+                Console.WriteLine("");
+            });
+            Console.WriteLine();
         }
     }
 }
