@@ -23,9 +23,13 @@ namespace JobApplicationTracker
             Console.WriteLine("Ange vilket löneanspråk du har angett:");
             int salaryExpectation = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine(); 
-            Console.WriteLine("Fyller i resternade värden..."); 
+            Console.WriteLine("Fyller i resternade värden...");
+            Thread.Sleep(1500);
 
             applications.Add(new JobApplication(companyName, positionTitle, JobApplication.Status.Applied, DateTime.Now, null, salaryExpectation));
+
+            Console.Clear();
+            Console.WriteLine($"Ansökningen som {positionTitle} på {companyName} är nu tillagd.");
         }
 
         public void UpdateStatus()
@@ -33,7 +37,6 @@ namespace JobApplicationTracker
             bool runShowUpdateList = true;
             while (runShowUpdateList)
             {
-                //Console.Clear();
                 Console.WriteLine("\n- Uppdatera ansökning -\n");
                 //=======  DRY - VARNING ========
                 int counter = 1;
@@ -49,7 +52,6 @@ namespace JobApplicationTracker
                 }
                 else
                 {
-                    //Console.Clear();
                     int index;
                     if (int.TryParse(userInput, out index))
                     {
@@ -78,10 +80,7 @@ namespace JobApplicationTracker
                         Console.Clear();
                         Console.WriteLine("\nFelaktig inmatning. Ange ett giltigt nummer eller 'x' för att gå tillbaka\n");
                     }
-
-
                 }
-
             }
         }
 
@@ -155,8 +154,30 @@ namespace JobApplicationTracker
 
         public void ShowByDate()
         {
-            Console.WriteLine("- Sorterade efter ansökningsdatum -");
-            //Gruppera enligt status och printa ut alla
+            bool runShowByDate = true;
+            while (runShowByDate)
+            {
+                //Gruppera enligt status och printa ut alla
+                Console.WriteLine("- Sorterade efter ansökningsdatum -");
+                Console.WriteLine();
+
+                var applicationsSortedByDate = applications.OrderByDescending(a => a.ApplicationDate).ToList();
+                applicationsSortedByDate.ForEach(a => Console.WriteLine($"{a.PositionTitle} på {a.CompanyName} - Ansökte: {a.ApplicationDate.ToShortDateString()}"));
+
+                Console.WriteLine("\nÅtergå till huvudmenyn genom att ange 'x'.");
+                string userInput = Console.ReadLine().ToLower(); 
+                if (userInput == "x")
+                {
+
+                    Console.Clear();
+                    runShowByDate = false;
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("Felaktigt kommando. Ange 'x' av att återgå till huvudmenyn.");
+                }
+            }
         }
 
         public void ShowStatistics()
@@ -223,9 +244,8 @@ namespace JobApplicationTracker
             int counter = 1;
             applications.ForEach(a => Console.WriteLine($"{counter++}. {a.PositionTitle} på {a.CompanyName} med löneanspråk {a.SalaryExpectation}. Du sökte tjänsten {a.ApplicationDate}. Nuvarande status: {a.CurrentState}"));
             Console.WriteLine();
-            Console.WriteLine("Vilken ansökning vill du radera?");
+            Console.WriteLine("Vilken ansökning vill du radera? (eller ange 'x' för att avbryta)");
             int userInput = Convert.ToInt32(Console.ReadLine()) - 1;
-            //Bekräfelse visas "Vill du ta bort <application info> J för Ja, N för Nej.
             Console.WriteLine($"Är du säker på att du vill radera ansökningen som {applications[userInput].PositionTitle} på {applications[userInput].CompanyName} som har status: {applications[userInput].CurrentState}\n Detta går inte att ångra!");
             Console.WriteLine("J - Ja eller N - Nej ");
             string userConfirmDeletion = Console.ReadLine().ToLower();
@@ -234,6 +254,7 @@ namespace JobApplicationTracker
                 Console.WriteLine($"Raderar ansökning: {applications[userInput].PositionTitle} på {applications[userInput].CompanyName}");
                 Thread.Sleep(2000);
                 applications.RemoveAt(userInput);
+                Console.Clear();
 
             } else
             {
