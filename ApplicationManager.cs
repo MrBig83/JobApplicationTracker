@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using static JobApplicationTracker.JobApplication;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace JobApplicationTracker
 {
@@ -125,6 +126,7 @@ namespace JobApplicationTracker
                             Console.WriteLine("-- Detaljerad information om ansökningen --");
                             Console.WriteLine();
                             applications[index].GetSummary();
+                            Console.WriteLine();
                         }
                         else
                         {
@@ -235,6 +237,33 @@ namespace JobApplicationTracker
             }
         }
 
+        public void ShowUnansweredOver14Days()
+        {
+            var oldUnanswered = applications
+                .Where(a => a.ResponseDate == null &&
+                            (DateTime.Today - a.ApplicationDate).Days > 14)
+                .ToList();
+
+            if (oldUnanswered.Count == 0)
+            {
+                Console.WriteLine("Inga obesvarade ansökningar äldre än 14 dagar.");
+                return;
+            }
+            else
+            {
+                Console.WriteLine("Ansökningar utan svar (äldre än 14 dagar):");
+                int counter = 1;
+                oldUnanswered.ForEach(a =>
+                    Console.WriteLine($"{counter++}. {a.PositionTitle} på {a.CompanyName} — skickad {a.ApplicationDate.ToShortDateString()}"));
+            }
+            Console.WriteLine("\n Tryck på valfri knapp för att fortsätta");
+            Console.ReadLine();
+            Console.Clear();
+
+                
+        }
+
+
         public void DeleteApplication()
         {
             bool runDeleteApplication = true;
@@ -299,13 +328,13 @@ namespace JobApplicationTracker
             //AddJob med en lista på 10 applikationer som dummydata
 
             applications.Add(new JobApplication("Volvo", "Truckförare", JobApplication.Status.Interview, DateTime.Today.AddDays(-7), DateTime.Today.AddDays(-2), 37000));
-            applications.Add(new JobApplication("Meta", "Developer", JobApplication.Status.Applied, DateTime.Today.AddDays(-17), DateTime.Today.AddDays(-12), 57000));
+            applications.Add(new JobApplication("Meta", "Developer", JobApplication.Status.Applied, DateTime.Today.AddDays(-17), null, 57000));
             applications.Add(new JobApplication("SKF", "Tekniker", JobApplication.Status.Offer, DateTime.Today.AddDays(-14), DateTime.Today.AddDays(-4), 37000));
             applications.Add(new JobApplication("HiQ", "IT-Konsult", JobApplication.Status.Interview, DateTime.Today.AddDays(-12), DateTime.Today.AddDays(-2), 47000));
             applications.Add(new JobApplication("Nexxer", "IT-Konsult", JobApplication.Status.Offer, DateTime.Today.AddDays(-22), DateTime.Today.AddDays(-2), 55000));
             applications.Add(new JobApplication("Ica", "Orderplockare", JobApplication.Status.Applied, DateTime.Today.AddDays(-7), DateTime.Today.AddDays(-5), 37000));
             applications.Add(new JobApplication("Swedish Match", "Snustestare", JobApplication.Status.Interview, DateTime.Today.AddDays(-21), DateTime.Today.AddDays(-15), 37000));
-            applications.Add(new JobApplication("SF Bio", "Projektoroperatör", JobApplication.Status.Applied, DateTime.Today.AddDays(-27), DateTime.Today.AddDays(-20), 37000));
+            applications.Add(new JobApplication("SF Bio", "Projektoroperatör", JobApplication.Status.Applied, DateTime.Today.AddDays(-27), null, 37000));
             applications.Add(new JobApplication("McDonalds", "Kock", JobApplication.Status.Rejected, DateTime.Today.AddDays(-18), DateTime.Today.AddDays(-17), 37000));
             applications.Add(new JobApplication("Spotify", "BE Developer", JobApplication.Status.Offer, DateTime.Today.AddDays(-5), DateTime.Today.AddDays(-2), 55000));
 
