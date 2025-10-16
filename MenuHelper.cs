@@ -85,34 +85,29 @@ namespace JobApplicationTracker
                         application.CurrentState = JobApplication.Status.Interview;
                         application.ResponseDate = DateTime.Now;
                         Console.WriteLine("Statusen ändrad till Intervju");
-                    //Lägg till en progressbar
                         Thread.Sleep(1500);
-                    Console.Clear();
+                        Console.Clear();
                         break;
                 case "2":
                         application.CurrentState = JobApplication.Status.Offer;
                         application.ResponseDate = DateTime.Now;
                         Console.WriteLine("Statusen ändrad till Erbjudande");
-                    //Lägg till en progressbar
-                    Thread.Sleep(1500);
-                    Console.Clear();
+                        Thread.Sleep(1500);
+                        Console.Clear();
                         break;
                 case "3":
                         application.CurrentState = JobApplication.Status.Rejected;
                         application.ResponseDate = DateTime.Now;
                         Console.WriteLine("Statusen ändrad till Nekad");
-                    //Lägg till en progressbar
-                    Thread.Sleep(1500);
-                    Console.Clear();
+                        Thread.Sleep(1500);
+                        Console.Clear();
                         break;
                 case "4":
-                    Console.Clear();
-
-                    break;
-                    default:
+                        Console.Clear();
+                        break;
+                default:
                         Console.WriteLine("Vänligen ange ett korrekt alternativ");
                         return true;
-
                 }            
             return false;
         }
