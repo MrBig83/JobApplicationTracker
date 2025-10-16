@@ -150,6 +150,9 @@ namespace JobApplicationTracker
                 }
                 Console.WriteLine();
             }
+            Console.WriteLine("Tryck på valfri knapp för att komma vidare...");
+            Console.ReadLine();
+            Console.Clear();
         }
 
         public void ShowByDate()
@@ -244,7 +247,7 @@ namespace JobApplicationTracker
             int counter = 1;
             applications.ForEach(a => Console.WriteLine($"{counter++}. {a.PositionTitle} på {a.CompanyName} med löneanspråk {a.SalaryExpectation}. Du sökte tjänsten {a.ApplicationDate}. Nuvarande status: {a.CurrentState}"));
             Console.WriteLine();
-            Console.WriteLine("Vilken ansökning vill du radera? (eller ange 'x' för att avbryta)");
+            Console.WriteLine("Vilken ansökning vill du radera? (eller ange 'x' för att avbryta)"); //Appen krashar när användaren väljer 'x'
             int userInput = Convert.ToInt32(Console.ReadLine()) - 1;
             Console.WriteLine($"Är du säker på att du vill radera ansökningen som {applications[userInput].PositionTitle} på {applications[userInput].CompanyName} som har status: {applications[userInput].CurrentState}\n Detta går inte att ångra!");
             Console.WriteLine("J - Ja eller N - Nej ");
