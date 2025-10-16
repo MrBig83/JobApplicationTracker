@@ -57,10 +57,40 @@ namespace JobApplicationTracker
             int counter = 1;
             applications.ForEach(a => Console.WriteLine($"{counter++}. {a.PositionTitle} på { a.CompanyName} med löneanspråk {a.SalaryExpectation}. Du sökte tjänsten {a.ApplicationDate.ToShortDateString()}. Nuvarande status: {a.CurrentState}"));
             Console.WriteLine();
+
+
             Console.WriteLine("Vill du visa detaljerad information om en ansökan (ange nummer) eller gå tillbaka till huvudmenyn (x)?");
-            string userInput = Console.ReadLine();
-            //Lägg till möjlighet att "öppna" en ansökan och läsa mer. application[userInput -1]
-            //Kanske visa i en "Show detaild information"-variant. 
+            string userInput = Console.ReadLine().ToLower();
+
+            if(userInput == "x") // ========================= Släng in en While-loop här. ====================================
+            {
+                return;
+            } else
+            {
+                int index;
+                if(int.TryParse(userInput, out index))
+                {
+                    index -= 1;
+
+                    if (index >= 0 && index < applications.Count)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("-- Detaljerad information om ansökningen --");
+                        Console.WriteLine();
+                        applications[index].GetSummary();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Numret du angav finns inte. Försök igen.");
+                    }
+                } else
+                {
+                    Console.WriteLine("Felaktig inmatning. Ange ett giltigt nummer eller 'x' för att gå tillbaka");
+                }
+            }
+            //End of IF
+
+
         }
 
         public void ShowByStatus()
@@ -147,7 +177,29 @@ namespace JobApplicationTracker
 
         public void DeleteApplication()
         {
-            //Gruppera enligt status och printa ut alla
+            //Visa alla ansökningar med löpnummer. Låt användaren välja nummer och ta bort den applikationen efter en bekräftelse. 
+            Console.WriteLine("- Radera ansökning -");
+            //=======  DRY - VARNING ========
+            int counter = 1;
+            applications.ForEach(a => Console.WriteLine($"{counter++}. {a.PositionTitle} på {a.CompanyName} med löneanspråk {a.SalaryExpectation}. Du sökte tjänsten {a.ApplicationDate}. Nuvarande status: {a.CurrentState}"));
+            Console.WriteLine();
+            Console.WriteLine("Vilken ansökning vill du radera?");
+            int userInput = Convert.ToInt32(Console.ReadLine()) - 1;
+            //Bekräfelse visas "Vill du ta bort <application info> J för Ja, N för Nej.
+            Console.WriteLine($"Är du säker på att du vill radera ansökningen som {applications[userInput].PositionTitle} på {applications[userInput].CompanyName} som har status: {applications[userInput].CurrentState}\n Detta går inte att ångra!");
+            Console.WriteLine("J - Ja eller N - Nej ");
+            string userConfirmDeletion = Console.ReadLine();
+            if(userConfirmDeletion == "J")
+            {
+                Console.WriteLine($"Raderar ansökning: {applications[userInput].PositionTitle} på {applications[userInput].CompanyName}");
+                Thread.Sleep(2000);
+                applications.RemoveAt(userInput);
+
+            } else
+            {
+                Console.WriteLine("Avbryt.");
+            }
+
         }
 
         public void AddDummyData()
