@@ -165,7 +165,7 @@ namespace JobApplicationTracker
                 applicationsSortedByDate.ForEach(a => Console.WriteLine($"{a.PositionTitle} på {a.CompanyName} - Ansökte: {a.ApplicationDate.ToShortDateString()}"));
 
                 Console.WriteLine("\nÅtergå till huvudmenyn genom att ange 'x'.");
-                string userInput = Console.ReadLine().ToLower();
+                string userInput = Console.ReadLine().ToLower(); 
                 if (userInput == "x")
                 {
 
