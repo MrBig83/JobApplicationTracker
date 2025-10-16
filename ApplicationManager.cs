@@ -115,10 +115,12 @@ namespace JobApplicationTracker
 
         public void ShowByDate()
         {
+            Console.WriteLine("- Sorterade efter ansökningsdatum -");
             //Gruppera enligt status och printa ut alla
         }
 
         public void ShowStatistics()
+        //Gruppera enligt status och printa ut statistik. (Antal i gruppen, dagar sedan svar, snitt antal dagar sedan svar)
         {
             Console.WriteLine("- Statistik för samtliga jobbapplikationer -");
             Console.WriteLine();
@@ -127,7 +129,9 @@ namespace JobApplicationTracker
             int responded = applications.Count(a => a.ResponseDate != null);
             double responseRate = (double)responded / total * 100;
             Console.WriteLine($"Totalt antal ansökningar: {total}");
+
             Console.WriteLine($"Svarsfrekvens: {responseRate}%");
+
 
             var averageResponseTIme = applications
                 .Where(a => a.ResponseDate.HasValue)
