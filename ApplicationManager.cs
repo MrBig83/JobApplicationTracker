@@ -5,10 +5,11 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using static JobApplicationTracker.JobApplication;
 
 namespace JobApplicationTracker
 {
-    public class ApplicationManager
+    public class ApplicationManager : ColorHelper
     {
         List<JobApplication> applications = new List<JobApplication>();
 
@@ -61,7 +62,9 @@ namespace JobApplicationTracker
                             Console.Clear();
                             Console.WriteLine("-- Detaljerad information om ansökningen --");
                             Console.WriteLine();
-                            Console.WriteLine($"\nTjänsten som {applications[index].PositionTitle} på {applications[index].CompanyName} söktes den {applications[index].ApplicationDate} och har status: {applications[index].CurrentState}\n");
+                            Console.Write($"\nTjänsten som {applications[index].PositionTitle} på {applications[index].CompanyName} söktes den {applications[index].ApplicationDate} och har status: ");
+                            ColorizeStatus(applications[index].CurrentState);
+                            Console.WriteLine();
 
                             bool printUpdateMenu = true;
                             while (printUpdateMenu)
@@ -93,7 +96,13 @@ namespace JobApplicationTracker
                 Console.WriteLine("- Samtliga ansökningar -\n");
                 //======= DRY - VARNING ========
                 int counter = 1;
-                applications.ForEach(a => Console.WriteLine($"{counter++}. {a.PositionTitle} på {a.CompanyName} med löneanspråk {a.SalaryExpectation}. Du sökte tjänsten {a.ApplicationDate.ToShortDateString()}. Nuvarande status: {a.CurrentState}"));
+                applications.ForEach(a =>
+                {
+                    Console.Write($"{counter++}. {a.PositionTitle} på {a.CompanyName} med löneanspråk {a.SalaryExpectation}. Du sökte tjänsten {a.ApplicationDate.ToShortDateString()}. Nuvarande status: ");
+                    ColorizeStatus(a.CurrentState);
+                    Console.WriteLine();
+                }); 
+
                 Console.WriteLine();
                 Console.WriteLine("Vill du visa detaljerad information om en ansökan (ange nummer) eller gå tillbaka till huvudmenyn (x)?");
                 string userInput = Console.ReadLine().ToLower();
@@ -127,7 +136,6 @@ namespace JobApplicationTracker
                     {
                         Console.Clear();
                         Console.WriteLine("\nFelaktig inmatning. Ange ett giltigt nummer eller 'x' för att gå tillbaka\n");
-                        
                     }
                 }
             }
@@ -139,11 +147,13 @@ namespace JobApplicationTracker
             Console.WriteLine("- Grupperade enligt status -");
             Console.WriteLine();
             var applicationsSortedByStatus = applications.GroupBy(a => a.CurrentState);
-            Console.WriteLine(applicationsSortedByStatus.Count());
 
             foreach (var group in applicationsSortedByStatus)
             {
-                Console.WriteLine($"Status: {group.Key}, Antal ansökningar: {group.Count()}");
+                Console.Write($"Status: ");
+                ColorizeStatus(group.Key);
+                Console.Write($", Antal ansökningar: {group.Count()}\n");
+
                 foreach (var application in group)
                 {
                     Console.WriteLine($"     - {application.PositionTitle} på {application.CompanyName}");
@@ -157,7 +167,6 @@ namespace JobApplicationTracker
 
         public void ShowByDate()
         {
-
             //Gruppera enligt status och printa ut alla
             Console.WriteLine("- Sorterade efter ansökningsdatum -");
             Console.WriteLine();
