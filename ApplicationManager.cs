@@ -150,34 +150,25 @@ namespace JobApplicationTracker
                 }
                 Console.WriteLine();
             }
+            Console.WriteLine("Tryck på valfri knapp för att komma vidare...");
+            Console.ReadLine();
+            Console.Clear();
         }
 
         public void ShowByDate()
         {
-            bool runShowByDate = true;
-            while (runShowByDate)
-            {
-                //Gruppera enligt status och printa ut alla
-                Console.WriteLine("- Sorterade efter ansökningsdatum -");
-                Console.WriteLine();
 
-                var applicationsSortedByDate = applications.OrderByDescending(a => a.ApplicationDate).ToList();
-                applicationsSortedByDate.ForEach(a => Console.WriteLine($"{a.PositionTitle} på {a.CompanyName} - Ansökte: {a.ApplicationDate.ToShortDateString()}"));
+            //Gruppera enligt status och printa ut alla
+            Console.WriteLine("- Sorterade efter ansökningsdatum -");
+            Console.WriteLine();
 
-                Console.WriteLine("\nÅtergå till huvudmenyn genom att ange 'x'.");
-                string userInput = Console.ReadLine().ToLower(); 
-                if (userInput == "x")
-                {
+            var applicationsSortedByDate = applications.OrderByDescending(a => a.ApplicationDate).ToList();
+            applicationsSortedByDate.ForEach(a => Console.WriteLine($"{a.PositionTitle} på {a.CompanyName} - Ansökte: {a.ApplicationDate.ToShortDateString()}"));
 
-                    Console.Clear();
-                    runShowByDate = false;
-                }
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine("Felaktigt kommando. Ange 'x' av att återgå till huvudmenyn.");
-                }
-            }
+            Console.WriteLine("\nTryck på valfri knapp för att fortsätta..."); 
+            Console.ReadLine();
+            Console.Clear();
+
         }
 
         public void ShowStatistics()
@@ -192,7 +183,6 @@ namespace JobApplicationTracker
             Console.WriteLine($"Totalt antal ansökningar: {total}");
 
             Console.WriteLine($"Svarsfrekvens: {responseRate}%");
-
 
             var averageResponseTIme = applications
                 .Where(a => a.ResponseDate.HasValue)
@@ -238,29 +228,61 @@ namespace JobApplicationTracker
 
         public void DeleteApplication()
         {
-            //Visa alla ansökningar med löpnummer. Låt användaren välja nummer och ta bort den applikationen efter en bekräftelse. 
-            Console.WriteLine("- Radera ansökning -");
-            //=======  DRY - VARNING ========
-            int counter = 1;
-            applications.ForEach(a => Console.WriteLine($"{counter++}. {a.PositionTitle} på {a.CompanyName} med löneanspråk {a.SalaryExpectation}. Du sökte tjänsten {a.ApplicationDate}. Nuvarande status: {a.CurrentState}"));
-            Console.WriteLine();
-            Console.WriteLine("Vilken ansökning vill du radera? (eller ange 'x' för att avbryta)");
-            int userInput = Convert.ToInt32(Console.ReadLine()) - 1;
-            Console.WriteLine($"Är du säker på att du vill radera ansökningen som {applications[userInput].PositionTitle} på {applications[userInput].CompanyName} som har status: {applications[userInput].CurrentState}\n Detta går inte att ångra!");
-            Console.WriteLine("J - Ja eller N - Nej ");
-            string userConfirmDeletion = Console.ReadLine().ToLower();
-            if(userConfirmDeletion == "j")
+            bool runDeleteApplication = true;
+            while (runDeleteApplication)
             {
-                Console.WriteLine($"Raderar ansökning: {applications[userInput].PositionTitle} på {applications[userInput].CompanyName}");
-                Thread.Sleep(2000);
-                applications.RemoveAt(userInput);
-                Console.Clear();
+                //Visa alla ansökningar med löpnummer. Låt användaren välja nummer och ta bort den applikationen efter en bekräftelse. 
+                Console.WriteLine("- Radera ansökning -");
+                //=======  DRY - VARNING ========
+                int counter = 1;
+                applications.ForEach(a => Console.WriteLine($"{counter++}. {a.PositionTitle} på {a.CompanyName} med löneanspråk {a.SalaryExpectation}. Du sökte tjänsten {a.ApplicationDate}. Nuvarande status: {a.CurrentState}"));
+                Console.WriteLine();
+                Console.WriteLine("Vilken ansökning vill du radera? (eller ange 'x' för att avbryta)"); 
 
-            } else
-            {
-                Console.WriteLine("Avbryt.");
+                string userInput = Console.ReadLine().ToLower();
+
+                if (userInput == "x")
+                {
+                    Console.Clear();
+                    runDeleteApplication = false;
+                }
+                else
+                {
+                    int index;
+                    if (int.TryParse(userInput, out index))
+                    {
+                        index -= 1;
+
+                        if (index >= 0 && index < applications.Count)
+                        {
+                            Console.WriteLine($"Är du säker på att du vill radera ansökningen som {applications[index].PositionTitle} på {applications[index].CompanyName} som har status: {applications[index].CurrentState}\n Detta går inte att ångra!");
+                            Console.WriteLine("J - Ja eller N - Nej ");
+                            string userConfirmDeletion = Console.ReadLine().ToLower();
+                            if (userConfirmDeletion == "j")
+                            {
+                                Console.WriteLine($"Raderar ansökning: {applications[index].PositionTitle} på {applications[index].CompanyName}");
+                                Thread.Sleep(2000);
+                                applications.RemoveAt(index);
+                                Console.Clear();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Avbryt.");
+                            }
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Console.WriteLine("\nNumret du angav finns inte. Försök igen.\n");
+                        }
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("\nFelaktig inmatning. Ange ett giltigt nummer eller 'x' för att gå tillbaka\n");
+                    }
+                }
             }
-
         }
 
         public void AddDummyData()
