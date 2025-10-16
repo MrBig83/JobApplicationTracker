@@ -226,15 +226,23 @@ namespace JobApplicationTracker
 
             foreach (var group in applicationsSortedByStatus)
             {
-                Console.WriteLine($"Status: {group.Key}, Antal ansökningar: {group.Count()}");
+                Console.Write($"Status: ");
+                ColorizeStatus(group.Key);
+                Console.Write($", Antal ansökningar: {group.Count()}");
                 double averageSalary = group.Average(a => a.SalaryExpectation);
-                Console.WriteLine($"Genomsnittlig löneförväntning per status: {averageSalary}");
+                Console.WriteLine($"Genomsnittlig löneförväntning per status: {averageSalary:F2}");
                 var earliest = group.OrderBy(a => a.ApplicationDate).First();
                 var latest = group.OrderByDescending(a => a.ApplicationDate).First();
                 Console.WriteLine($"Första ansökan gjordes till: {earliest.CompanyName} ({earliest.ApplicationDate:d})");
                 Console.WriteLine($"Senaste ansökan gjordes till: {latest.CompanyName} ({latest.ApplicationDate:d})");
                 Console.WriteLine();
+                Console.WriteLine(new string('-', 70));
+                Console.WriteLine();
             }
+
+            Console.WriteLine("Tryck på valfri knapp för att fortsätta");
+            Console.ReadLine();
+            Console.Clear();
         }
 
         public void ShowUnansweredOver14Days()

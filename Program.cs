@@ -4,6 +4,8 @@
     {
         static void Main(string[] args)
         {
+            Console.Title = "Job Application Tracker 💼";
+
             ApplicationManager applicationManager = new ApplicationManager();
 
             bool runProgram = true;
