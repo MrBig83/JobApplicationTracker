@@ -33,7 +33,7 @@ namespace JobApplicationTracker
             bool runShowUpdateList = true;
             while (runShowUpdateList)
             {
-                Console.Clear();
+                //Console.Clear();
                 Console.WriteLine("\n- Uppdatera ansökning -\n");
                 //=======  DRY - VARNING ========
                 int counter = 1;
@@ -49,6 +49,7 @@ namespace JobApplicationTracker
                 }
                 else
                 {
+                    //Console.Clear();
                     int index;
                     if (int.TryParse(userInput, out index))
                     {
@@ -59,6 +60,12 @@ namespace JobApplicationTracker
                             Console.WriteLine("-- Detaljerad information om ansökningen --");
                             Console.WriteLine();
                             Console.WriteLine($"\nTjänsten som {applications[index].PositionTitle} på {applications[index].CompanyName} söktes den {applications[index].ApplicationDate} och har status: {applications[index].CurrentState}\n");
+
+                            bool printUpdateMenu = true;
+                            while (printUpdateMenu)
+                            {
+                                printUpdateMenu = MenuHelper.ShowUpdateMenu(applications[index]); //Krashar om användaren anger en siffra som inte är med på listan
+                            }
                         }
                         else
                         {
@@ -72,11 +79,7 @@ namespace JobApplicationTracker
                         Console.WriteLine("\nFelaktig inmatning. Ange ett giltigt nummer eller 'x' för att gå tillbaka\n");
                     }
 
-                    bool printUpdateMenu = true;
-                    while (printUpdateMenu)
-                    {
-                        printUpdateMenu = MenuHelper.ShowUpdateMenu(applications[index]);
-                    }
+
                 }
 
             }

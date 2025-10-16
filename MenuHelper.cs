@@ -26,6 +26,7 @@ namespace JobApplicationTracker
             switch (menuChoice)
             {
                 case "1":
+                    Console.Clear();
                     applicationManager.AddJob();
                     break;
                 case "2":
@@ -33,23 +34,29 @@ namespace JobApplicationTracker
                     applicationManager.ShowAll();
                     break;
                 case "3":
+                    Console.Clear();
                     applicationManager.ShowByStatus();
                     break;
                 case "4":
+                    Console.Clear();
                     applicationManager.ShowByDate();
                     break;
                 case "5":
+                    Console.Clear();
                     applicationManager.ShowStatistics();
                     break;
                 case "6":
+                    Console.Clear();
                     applicationManager.UpdateStatus();
                     break;
                 case "7":
+                    Console.Clear();
                     applicationManager.DeleteApplication();
                     break;
                 case "8":
                     return false;
                 case "99":
+                    Console.Clear();
                     applicationManager.AddDummyData();
                     break;
                 default:
@@ -82,22 +89,26 @@ namespace JobApplicationTracker
                         Thread.Sleep(1500);
                     Console.Clear();
                         break;
-                    case "2":
+                case "2":
                         application.CurrentState = JobApplication.Status.Offer;
                         application.ResponseDate = DateTime.Now;
                         Console.WriteLine("Statusen ändrad till Erbjudande");
                     //Lägg till en progressbar
                     Thread.Sleep(1500);
+                    Console.Clear();
                         break;
-                    case "3":
+                case "3":
                         application.CurrentState = JobApplication.Status.Rejected;
                         application.ResponseDate = DateTime.Now;
                         Console.WriteLine("Statusen ändrad till Nekad");
                     //Lägg till en progressbar
                     Thread.Sleep(1500);
+                    Console.Clear();
                         break;
-                    case "4":
-                        break;
+                case "4":
+                    Console.Clear();
+
+                    break;
                     default:
                         Console.WriteLine("Vänligen ange ett korrekt alternativ");
                         return true;
