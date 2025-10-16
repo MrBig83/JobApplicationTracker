@@ -157,30 +157,18 @@ namespace JobApplicationTracker
 
         public void ShowByDate()
         {
-            bool runShowByDate = true;
-            while (runShowByDate)
-            {
-                //Gruppera enligt status och printa ut alla
-                Console.WriteLine("- Sorterade efter ansökningsdatum -");
-                Console.WriteLine();
 
-                var applicationsSortedByDate = applications.OrderByDescending(a => a.ApplicationDate).ToList();
-                applicationsSortedByDate.ForEach(a => Console.WriteLine($"{a.PositionTitle} på {a.CompanyName} - Ansökte: {a.ApplicationDate.ToShortDateString()}"));
+            //Gruppera enligt status och printa ut alla
+            Console.WriteLine("- Sorterade efter ansökningsdatum -");
+            Console.WriteLine();
 
-                Console.WriteLine("\nÅtergå till huvudmenyn genom att ange 'x'."); //===================================  Ändra denna till "tryck på valfri knapp"...  ===================================================
-                string userInput = Console.ReadLine().ToLower(); 
-                if (userInput == "x")
-                {
+            var applicationsSortedByDate = applications.OrderByDescending(a => a.ApplicationDate).ToList();
+            applicationsSortedByDate.ForEach(a => Console.WriteLine($"{a.PositionTitle} på {a.CompanyName} - Ansökte: {a.ApplicationDate.ToShortDateString()}"));
 
-                    Console.Clear();
-                    runShowByDate = false;
-                }
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine("Felaktigt kommando. Ange 'x' av att återgå till huvudmenyn.");
-                }
-            }
+            Console.WriteLine("\nTryck på valfri knapp för att fortsätta..."); 
+            Console.ReadLine();
+            Console.Clear();
+
         }
 
         public void ShowStatistics()
@@ -195,7 +183,6 @@ namespace JobApplicationTracker
             Console.WriteLine($"Totalt antal ansökningar: {total}");
 
             Console.WriteLine($"Svarsfrekvens: {responseRate}%");
-
 
             var averageResponseTIme = applications
                 .Where(a => a.ResponseDate.HasValue)
@@ -250,9 +237,7 @@ namespace JobApplicationTracker
                 int counter = 1;
                 applications.ForEach(a => Console.WriteLine($"{counter++}. {a.PositionTitle} på {a.CompanyName} med löneanspråk {a.SalaryExpectation}. Du sökte tjänsten {a.ApplicationDate}. Nuvarande status: {a.CurrentState}"));
                 Console.WriteLine();
-
                 Console.WriteLine("Vilken ansökning vill du radera? (eller ange 'x' för att avbryta)"); 
-
 
                 string userInput = Console.ReadLine().ToLower();
 
@@ -295,15 +280,9 @@ namespace JobApplicationTracker
                     {
                         Console.Clear();
                         Console.WriteLine("\nFelaktig inmatning. Ange ett giltigt nummer eller 'x' för att gå tillbaka\n");
-
                     }
                 }
-
-
-
-     
             }
-
         }
 
         public void AddDummyData()
