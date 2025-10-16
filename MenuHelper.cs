@@ -10,7 +10,8 @@ namespace JobApplicationTracker
     {
         public static bool ShowMenu(ApplicationManager applicationManager)
         {
-            Console.Clear();
+            Console.WriteLine("\n" +
+                "-- HUVUDMENY --\n");
             Console.WriteLine("1. Lägg till ny ansökan");
             Console.WriteLine("2. Visa alla ansökningar");
             Console.WriteLine("3. Filtrera och gruppera ansökningar efter status");
@@ -62,11 +63,12 @@ namespace JobApplicationTracker
         public static bool ShowUpdateMenu(JobApplication application)
         {
             
-            Console.WriteLine("-- Ändra status -- ");
+            Console.WriteLine("-- Ändra status -- \n");
+            Console.WriteLine("Välj ett av följande alternativ:\n");
             Console.WriteLine("1. ...till Intervju");
             Console.WriteLine("2. ...till Erbjudande");
             Console.WriteLine("3. ...till Nekad");
-            Console.WriteLine("4. Avbryt");
+            Console.WriteLine("4. Avbryt\n");
             Console.WriteLine("Datum för ändringen sparas automatiskt.");
             string menuChoice = Console.ReadLine();
 
@@ -78,6 +80,7 @@ namespace JobApplicationTracker
                         Console.WriteLine("Statusen ändrad till Intervju");
                     //Lägg till en progressbar
                         Thread.Sleep(1500);
+                    Console.Clear();
                         break;
                     case "2":
                         application.CurrentState = JobApplication.Status.Offer;
