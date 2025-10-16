@@ -51,46 +51,50 @@ namespace JobApplicationTracker
 
         public void ShowAll()
         {
-            //CW för att printa ut alla job i listan
-            Console.WriteLine("- Samtliga ansökningar -");
-            //======= DRY - VARNING ========
-            int counter = 1;
-            applications.ForEach(a => Console.WriteLine($"{counter++}. {a.PositionTitle} på { a.CompanyName} med löneanspråk {a.SalaryExpectation}. Du sökte tjänsten {a.ApplicationDate.ToShortDateString()}. Nuvarande status: {a.CurrentState}"));
-            Console.WriteLine();
-
-
-            Console.WriteLine("Vill du visa detaljerad information om en ansökan (ange nummer) eller gå tillbaka till huvudmenyn (x)?");
-            string userInput = Console.ReadLine().ToLower();
-
-            if(userInput == "x") // ========================= Släng in en While-loop här. ====================================
+            bool runShowAll = true;
+            while (runShowAll)
             {
-                return;
-            } else
-            {
-                int index;
-                if(int.TryParse(userInput, out index))
+                //CW för att printa ut alla job i listan
+                Console.WriteLine("- Samtliga ansökningar -\n");
+                //======= DRY - VARNING ========
+                int counter = 1;
+                applications.ForEach(a => Console.WriteLine($"{counter++}. {a.PositionTitle} på {a.CompanyName} med löneanspråk {a.SalaryExpectation}. Du sökte tjänsten {a.ApplicationDate.ToShortDateString()}. Nuvarande status: {a.CurrentState}"));
+                Console.WriteLine();
+                Console.WriteLine("Vill du visa detaljerad information om en ansökan (ange nummer) eller gå tillbaka till huvudmenyn (x)?");
+                string userInput = Console.ReadLine().ToLower();
+
+                if (userInput == "x")
                 {
-                    index -= 1;
-
-                    if (index >= 0 && index < applications.Count)
+                    runShowAll = false;
+                }
+                else
+                {
+                    int index;
+                    if (int.TryParse(userInput, out index))
                     {
-                        Console.Clear();
-                        Console.WriteLine("-- Detaljerad information om ansökningen --");
-                        Console.WriteLine();
-                        applications[index].GetSummary();
+                        index -= 1;
+
+                        if (index >= 0 && index < applications.Count)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("-- Detaljerad information om ansökningen --");
+                            Console.WriteLine();
+                            applications[index].GetSummary();
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Numret du angav finns inte. Försök igen.\n");
+                        }
                     }
                     else
                     {
-                        Console.WriteLine("Numret du angav finns inte. Försök igen.");
+                        Console.Clear();
+                        Console.WriteLine("Felaktig inmatning. Ange ett giltigt nummer eller 'x' för att gå tillbaka\n");
+                        
                     }
-                } else
-                {
-                    Console.WriteLine("Felaktig inmatning. Ange ett giltigt nummer eller 'x' för att gå tillbaka");
                 }
             }
-            //End of IF
-
-
         }
 
         public void ShowByStatus()
