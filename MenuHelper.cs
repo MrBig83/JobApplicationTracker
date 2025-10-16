@@ -19,7 +19,8 @@ namespace JobApplicationTracker
             Console.WriteLine("5. Visa statistik"); //Visa undermeny av denna (gråa ut allt annat) eller presentera en ny meny
             Console.WriteLine("6. Uppdatera status på en ansökan");
             Console.WriteLine("7. Ta bort en ansökan");
-            Console.WriteLine("8. Avsluta");
+            Console.WriteLine("8. Visa ansökningar äldre än 14 dagar");
+            Console.WriteLine("9. Avsluta");
             Console.WriteLine("99. Lägg till dummy-data");
             string menuChoice = Console.ReadLine();
 
@@ -54,6 +55,10 @@ namespace JobApplicationTracker
                     applicationManager.DeleteApplication();
                     break;
                 case "8":
+                    Console.Clear();
+                    applicationManager.ShowUnansweredOver14Days();
+                    break;
+                case "9":
                     return false;
                 case "99":
                     Console.Clear();
