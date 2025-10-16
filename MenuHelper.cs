@@ -10,8 +10,9 @@ namespace JobApplicationTracker
     {
         public static bool ShowMenu(ApplicationManager applicationManager)
         {
+            Console.Clear();
             Console.WriteLine("1. Lägg till ny ansökan");
-            Console.WriteLine("2. Visa alla ansäkningar");
+            Console.WriteLine("2. Visa alla ansökningar");
             Console.WriteLine("3. Filtrera och gruppera ansökningar efter status");
             Console.WriteLine("4. Sortera ansökningar efter datum");
             Console.WriteLine("5. Visa statistik"); //Visa undermeny av denna (gråa ut allt annat) eller presentera en ny meny
@@ -27,6 +28,7 @@ namespace JobApplicationTracker
                     applicationManager.AddJob();
                     break;
                 case "2":
+                    Console.Clear();
                     applicationManager.ShowAll();
                     break;
                 case "3":
